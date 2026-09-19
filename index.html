@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Наш семейный альбом</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#fdf6ec;
+  --bg-tint-1:rgba(240,178,143,.28);
+  --bg-tint-2:rgba(165,198,178,.24);
+  --surface:#fffdfa;
+  --surface-2:#fbf1e4;
+  --line:rgba(112,79,58,.16);
+  --line-soft:rgba(112,79,58,.09);
+  --ink:#3f2f26;
+  --ink-soft:#7d6656;
+  --ink-faint:#a08d7d;
+  --accent:#d97757;
+  --accent-ink:#fff8f4;
+  --accent-soft:rgba(217,119,87,.12);
+  --sage:#7ba58d;
+  --gold:#e0ac5a;
+  --shadow:0 2px 4px rgba(94,62,42,.05),0 10px 26px rgba(94,62,42,.09);
+  --shadow-lg:0 12px 50px rgba(64,40,26,.22);
+  --radius:20px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#1c1614;
+    --bg-tint-1:rgba(217,119,87,.16);
+    --bg-tint-2:rgba(123,165,141,.12);
+    --surface:#272020;
+    --surface-2:#2f2726;
+    --line:rgba(255,229,209,.14);
+    --line-soft:rgba(255,229,209,.08);
+    --ink:#f4e8de;
+    --ink-soft:#c3ad9e;
+    --ink-faint:#93806f;
+    --accent:#e8906e;
+    --accent-ink:#2a1a12;
+    --accent-soft:rgba(232,144,110,.16);
+    --sage:#8dbba1;
+    --gold:#e8be79;
+    --shadow:0 2px 4px rgba(0,0,0,.24),0 10px 26px rgba(0,0,0,.36);
+    --shadow-lg:0 12px 50px rgba(0,0,0,.6);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#1c1614;
+  --bg-tint-1:rgba(217,119,87,.16);
+  --bg-tint-2:rgba(123,165,141,.12);
+  --surface:#272020;
+  --surface-2:#2f2726;
+  --line:rgba(255,229,209,.14);
+  --line-soft:rgba(255,229,209,.08);
+  --ink:#f4e8de;
+  --ink-soft:#c3ad9e;
+  --ink-faint:#93806f;
+  --accent:#e8906e;
+  --accent-ink:#2a1a12;
+  --accent-soft:rgba(232,144,110,.16);
+  --sage:#8dbba1;
+  --gold:#e8be79;
+  --shadow:0 2px 4px rgba(0,0,0,.24),0 10px 26px rgba(0,0,0,.36);
+  --shadow-lg:0 12px 50px rgba(0,0,0,.6);
+}
+
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background-color:var(--bg);
+  background-image:
+    radial-gradient(1100px 520px at 12% -10%, var(--bg-tint-1), transparent 62%),
+    radial-gradient(900px 460px at 92% 4%, var(--bg-tint-2), transparent 60%);
+  background-attachment:fixed;
+  color:var(--ink);
+  font-family:'Nunito',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  font-size:16px;line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+  min-height:100vh;
+}
+img,video{max-width:100%;display:block}
+button{font:inherit;color:inherit;cursor:pointer;border:none;background:none}
+input,select,textarea{font:inherit;color:inherit}
+
+.wrap{max-width:1180px;margin:0 auto;padding:0 18px 100px}
+
+/* ---------- Шапка ---------- */
+header{padding:38px 0 14px;text-align:center;position:relative}
+.album-title{
+  font-family:'Caveat',cursive;font-weight:700;
+  font-size:clamp(2.6rem,7vw,4.2rem);line-height:1.02;
+  margin:0;color:var(--ink);letter-spacing:.5px;
+}
+.album-title .edit-hint{opacity:0;font-size:.9rem;font-family:'Nunito';margin-left:8px;color:var(--ink-faint)}
+.album-title:hover .edit-hint{opacity:1}
+.album-sub{margin:8px 0 0;color:var(--ink-soft);font-size:.98rem}
+.title-btn{display:inline-block;border-radius:14px;padding:2px 12px;transition:background .18s}
+.title-btn:hover{background:var(--accent-soft)}
+.heart-rule{display:flex;align-items:center;justify-content:center;gap:12px;margin:18px auto 4px;max-width:340px;color:var(--accent)}
+.heart-rule span{height:1px;flex:1;background:linear-gradient(90deg,transparent,var(--line),transparent)}
+
+/* ---------- Панель ---------- */
+.toolbar{
+  display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:center;
+  margin:22px 0 6px;
+}
+.chip{
+  display:inline-flex;align-items:center;gap:7px;
+  padding:9px 16px;border-radius:999px;
+  background:var(--surface);border:1px solid var(--line);
+  color:var(--ink-soft);font-weight:700;font-size:.92rem;
+  box-shadow:0 1px 2px rgba(94,62,42,.04);
+  transition:transform .15s, background .15s, color .15s, border-color .15s;
+  white-space:nowrap;
+}
+.chip:hover{transform:translateY(-1px);border-color:var(--accent)}
+.chip.on{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);box-shadow:var(--shadow)}
+.chip .cnt{font-size:.78rem;opacity:.65;font-weight:700}
+.chip.year{font-family:'Caveat',cursive;font-size:1.28rem;padding:4px 16px;font-weight:700}
+
+.years-row{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:14px 0 6px}
+
+.utility{display:flex;gap:10px;align-items:center;justify-content:center;flex-wrap:wrap;margin:18px 0 8px}
+.search{
+  display:flex;align-items:center;gap:8px;background:var(--surface);
+  border:1px solid var(--line);border-radius:999px;padding:8px 16px;min-width:210px;
+}
+.search input{border:none;background:none;outline:none;width:100%;font-size:.95rem}
+.search input::placeholder{color:var(--ink-faint)}
+.btn{
+  display:inline-flex;align-items:center;gap:8px;padding:11px 20px;border-radius:999px;
+  font-weight:800;font-size:.95rem;transition:transform .15s,box-shadow .15s,opacity .15s;
+}
+.btn:hover{transform:translateY(-1px)}
+.btn:active{transform:translateY(0)}
+.btn-primary{background:var(--accent);color:var(--accent-ink);box-shadow:var(--shadow)}
+.btn-ghost{background:var(--surface);border:1px solid var(--line);color:var(--ink-soft)}
+.btn[disabled]{opacity:.5;pointer-events:none}
+.meter{font-size:.82rem;color:var(--ink-faint);text-align:center;margin:10px 0 0}
+
+/* ---------- Галерея ---------- */
+.year-block{margin-top:34px}
+.year-head{
+  display:flex;align-items:center;gap:14px;margin:0 0 16px;
+}
+.year-head h2{
+  font-family:'Caveat',cursive;font-size:2.3rem;font-weight:700;margin:0;color:var(--accent);
+}
+.year-head .line{flex:1;height:1px;background:var(--line)}
+.year-head .n{font-size:.85rem;color:var(--ink-faint);font-weight:700}
+
+.masonry{columns:2;column-gap:16px}
+@media(min-width:680px){.masonry{columns:3}}
+@media(min-width:1000px){.masonry{columns:4}}
+
+.card{
+  break-inside:avoid;margin:0 0 16px;background:var(--surface);
+  border:1px solid var(--line-soft);border-radius:var(--radius);
+  padding:9px 9px 4px;box-shadow:var(--shadow);
+  transition:transform .2s ease, box-shadow .2s ease;
+  cursor:pointer;position:relative;overflow:hidden;
+}
+.card:hover{transform:translateY(-3px) rotate(-.35deg);box-shadow:var(--shadow-lg)}
+.card .thumb{position:relative;border-radius:13px;overflow:hidden;background:var(--surface-2)}
+.card .thumb img,.card .thumb video{width:100%;height:auto;display:block}
+.card .play{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.3));
+}
+.card .play i{
+  width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.9);
+  display:flex;align-items:center;justify-content:center;color:#3f2f26;
+}
+.card .meta{padding:9px 6px 8px}
+.card .cap{font-size:.9rem;font-weight:600;color:var(--ink);line-height:1.35;word-break:break-word}
+.card .tag{display:block;margin-top:5px;font-size:.76rem;color:var(--ink-faint);font-weight:700;letter-spacing:.2px}
+
+.empty{text-align:center;padding:70px 20px;color:var(--ink-soft)}
+.empty h3{font-family:'Caveat',cursive;font-size:2rem;margin:14px 0 6px;color:var(--ink)}
+.empty p{margin:0 auto;max-width:380px;font-size:.95rem}
+
+/* ---------- Модалки ---------- */
+.overlay{
+  position:fixed;inset:0;z-index:60;background:rgba(40,25,16,.55);
+  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+  display:flex;align-items:center;justify-content:center;padding:18px;
+}
+.overlay[hidden]{display:none}
+.sheet{
+  background:var(--surface);border-radius:26px;box-shadow:var(--shadow-lg);
+  width:100%;max-width:520px;max-height:90vh;overflow-y:auto;padding:26px;
+  border:1px solid var(--line-soft);
+}
+.sheet h3{font-family:'Caveat',cursive;font-size:2rem;margin:0 0 4px;font-weight:700}
+.sheet .hint{color:var(--ink-soft);font-size:.88rem;margin:0 0 18px}
+.field{margin-bottom:16px}
+.field label{display:block;font-size:.83rem;font-weight:800;color:var(--ink-soft);margin-bottom:7px;letter-spacing:.3px}
+.field input[type=text],.field input[type=number],.field textarea,.field select{
+  width:100%;padding:11px 14px;border-radius:14px;border:1px solid var(--line);
+  background:var(--surface-2);outline:none;font-size:.95rem;
+}
+.field textarea{min-height:74px;resize:vertical;font-family:inherit}
+.field input:focus,.field textarea:focus,.field select:focus{border-color:var(--accent)}
+.pickers{display:flex;flex-wrap:wrap;gap:8px}
+.drop{
+  border:2px dashed var(--line);border-radius:18px;padding:26px 16px;text-align:center;
+  background:var(--surface-2);color:var(--ink-soft);cursor:pointer;transition:border-color .15s,background .15s;
+}
+.drop:hover,.drop.over{border-color:var(--accent);background:var(--accent-soft)}
+.drop b{display:block;color:var(--ink);font-size:1rem;margin-bottom:4px}
+.drop small{font-size:.8rem;color:var(--ink-faint)}
+.filelist{margin:14px 0 0;max-height:190px;overflow:auto}
+.filerow{display:flex;align-items:center;gap:9px;font-size:.85rem;padding:6px 2px;border-bottom:1px solid var(--line-soft)}
+.filerow .nm{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.filerow .st{font-size:.78rem;font-weight:800;color:var(--ink-faint)}
+.filerow.ok .st{color:var(--sage)}
+.filerow.err .st{color:var(--accent)}
+.actions{display:flex;gap:10px;justify-content:flex-end;margin-top:20px;flex-wrap:wrap}
+.notice{background:var(--accent-soft);border-radius:14px;padding:11px 14px;font-size:.85rem;color:var(--ink-soft);margin-bottom:16px}
+
+/* ---------- Просмотр ---------- */
+.viewer{
+  position:fixed;inset:0;z-index:80;background:rgba(26,16,11,.94);
+  display:flex;flex-direction:column;
+}
+.viewer[hidden]{display:none}
+.viewer .stage{flex:1;display:flex;align-items:center;justify-content:center;padding:16px;min-height:0;position:relative}
+.viewer .stage img,.viewer .stage video{max-width:100%;max-height:100%;border-radius:12px;object-fit:contain}
+.viewer .bar{display:flex;align-items:center;gap:10px;padding:14px 16px;color:#f6ece2;flex-wrap:wrap}
+.viewer .bar .txt{flex:1;min-width:180px}
+.viewer .bar .t1{font-weight:700;font-size:1rem}
+.viewer .bar .t2{font-size:.8rem;opacity:.7;margin-top:2px}
+.vbtn{
+  width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,.12);
+  color:#fff;display:flex;align-items:center;justify-content:center;transition:background .15s;
+}
+.vbtn:hover{background:rgba(255,255,255,.24)}
+.nav{position:absolute;top:50%;transform:translateY(-50%);z-index:2}
+.nav.prev{left:12px}
+.nav.next{right:12px}
+.viewer .top{display:flex;justify-content:flex-end;padding:12px 14px 0}
+
+.toast{
+  position:fixed;left:50%;bottom:26px;transform:translateX(-50%);
+  background:var(--ink);color:var(--bg);padding:11px 20px;border-radius:999px;
+  font-size:.88rem;font-weight:700;z-index:120;box-shadow:var(--shadow-lg);max-width:88vw;text-align:center;
+}
+.toast[hidden]{display:none}
+.spinner{width:17px;height:17px;border:2.5px solid rgba(255,255,255,.35);border-top-color:currentColor;border-radius:50%;animation:spin .8s linear infinite;display:inline-block}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-wrap{text-align:center;padding:60px 0;color:var(--ink-faint)}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <button class="title-btn" id="titleBtn">
+      <h1 class="album-title" id="albumTitle">Наш семейный альбом<span class="edit-hint">✎</span></h1>
+    </button>
+    <p class="album-sub" id="albumSub">Хроника нашей жизни — год за годом</p>
+    <div class="heart-rule"><span></span>♥<span></span></div>
+  </header>
+
+  <nav class="toolbar" id="sectionTabs"></nav>
+  <div class="years-row" id="yearsRow"></div>
+
+  <div class="utility">
+    <div class="search">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+      <input id="search" type="text" placeholder="Поиск по подписям…" autocomplete="off">
+    </div>
+    <button class="btn btn-ghost" id="orderBtn" title="Порядок">↓ Сначала новые</button>
+    <button class="btn btn-primary" id="addBtn" hidden>
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+      Добавить
+    </button>
+  </div>
+  <p class="meter" id="meter"></p>
+
+  <main id="gallery">
+    <div class="loading-wrap"><span class="spinner" style="border-top-color:var(--accent)"></span><p>Открываем альбом…</p></div>
+  </main>
+</div>
+
+<!-- Загрузка -->
+<div class="overlay" id="uploadModal" hidden>
+  <div class="sheet">
+    <h3>Добавить в альбом</h3>
+    <p class="hint">Фото и короткие видео. Большие снимки уменьшатся автоматически.</p>
+
+    <div class="drop" id="drop">
+      <b id="dropTitle">Перетащите файлы сюда</b>
+      <small>или нажмите, чтобы выбрать · JPG, PNG, WEBP, GIF, MP4, WEBM · до 20 МБ</small>
+      <input type="file" id="fileInput" multiple accept="image/*,video/mp4,video/webm" hidden>
+    </div>
+    <div class="filelist" id="fileList"></div>
+
+    <div class="field" style="margin-top:18px">
+      <label>Раздел</label>
+      <div class="pickers" id="upSections"></div>
+    </div>
+    <div class="field">
+      <label>Год</label>
+      <input type="number" id="upYear" min="1900" max="2100" step="1">
+    </div>
+    <div class="field">
+      <label>Подпись <span style="font-weight:600;color:var(--ink-faint)">— по желанию</span></label>
+      <textarea id="upCaption" placeholder="Например: первый день в школе, лето у бабушки…"></textarea>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-ghost" id="upCancel">Отмена</button>
+      <button class="btn btn-primary" id="upSave">Сохранить</button>
+    </div>
+  </div>
+</div>
+
+<!-- Редактирование -->
+<div class="overlay" id="editModal" hidden>
+  <div class="sheet" style="max-width:460px">
+    <h3>Изменить воспоминание</h3>
+    <p class="hint">Подпись, год и раздел можно поправить в любой момент.</p>
+    <div class="field">
+      <label>Раздел</label>
+      <div class="pickers" id="edSections"></div>
+    </div>
+    <div class="field"><label>Год</label><input type="number" id="edYear" min="1900" max="2100" step="1"></div>
+    <div class="field"><label>Подпись</label><textarea id="edCaption"></textarea></div>
+    <div class="actions">
+      <button class="btn btn-ghost" id="edCancel">Отмена</button>
+      <button class="btn btn-primary" id="edSave">Сохранить</button>
+    </div>
+  </div>
+</div>
+
+<!-- Название альбома -->
+<div class="overlay" id="titleModal" hidden>
+  <div class="sheet" style="max-width:420px">
+    <h3>Название альбома</h3>
+    <p class="hint">Так альбом увидят все члены семьи.</p>
+    <div class="field"><label>Заголовок</label><input type="text" id="tTitle" maxlength="60"></div>
+    <div class="field"><label>Подзаголовок</label><input type="text" id="tSub" maxlength="90"></div>
+    <div class="actions">
+      <button class="btn btn-ghost" id="tCancel">Отмена</button>
+      <button class="btn btn-primary" id="tSave">Сохранить</button>
+    </div>
+  </div>
+</div>
+
+<!-- Просмотр -->
+<div class="viewer" id="viewer" hidden>
+  <div class="top"><button class="vbtn" id="vClose" aria-label="Закрыть">✕</button></div>
+  <div class="stage" id="vStage">
+    <button class="vbtn nav prev" id="vPrev" aria-label="Назад">‹</button>
+    <div id="vMedia" style="display:flex;align-items:center;justify-content:center;max-width:100%;max-height:100%"></div>
+    <button class="vbtn nav next" id="vNext" aria-label="Вперёд">›</button>
+  </div>
+  <div class="bar">
+    <div class="txt"><div class="t1" id="vCap"></div><div class="t2" id="vMeta"></div></div>
+    <button class="vbtn" id="vEdit" title="Изменить" hidden>✎</button>
+    <button class="vbtn" id="vDel" title="Удалить" hidden>🗑</button>
+  </div>
+</div>
+
+<div class="toast" id="toast" hidden></div>
+
+<script>
+(function(){
+"use strict";
+
+/* ======== Конфигурация разделов ======== */
+var SECTIONS = [
+  {id:"haidar", name:"Хайдар",           emoji:"🧒"},
+  {id:"balia",  name:"Балия",            emoji:"🌸"},
+  {id:"papa",   name:"Ата",              emoji:"🧓"},
+  {id:"mama",   name:"Аже",              emoji:"👵"},
+  {id:"family", name:"Семейные события", emoji:"🎉"},
+  {id:"travel", name:"Путешествия",      emoji:"✈️"}
+];
+function sectionById(id){ for(var i=0;i<SECTIONS.length;i++) if(SECTIONS[i].id===id) return SECTIONS[i]; return {id:id,name:"Разное",emoji:"📷"}; }
+
+/* ======== Состояние ======== */
+var DB=null, ASSETS=null, USER=null, MY_ID=null;
+var items=[], profiles={};
+var fSection="all", fYear="all", fQuery="", newestFirst=true;
+var canWrite=null, ready=false;
+var viewList=[], viewIdx=0, editingId=null;
+var album={title:"Наш семейный альбом", sub:"Хроника нашей жизни — год за годом"};
+var pending=[]; // файлы в модалке загрузки
+var upSection=SECTIONS[0].id, edSection=SECTIONS[0].id;
+
+var $=function(id){return document.getElementById(id);};
+
+/* ======== Утилиты ======== */
+function toast(msg, ms){
+  var t=$("toast"); t.textContent=msg; t.hidden=false;
+  clearTimeout(toast._t); toast._t=setTimeout(function(){t.hidden=true;}, ms||3200);
+}
+function esc(s){ return String(s==null?"":s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];}); }
+function mb(b){ return (b/1048576).toFixed(b<10485760?1:0)+" МБ"; }
+function errText(code){
+  var m={
+    too_large:"файл больше 20 МБ",
+    unsupported_type:"формат не поддерживается (нужны JPG, PNG, WEBP, GIF, MP4 или WEBM)",
+    invalid_request:"файл не удалось прочитать",
+    quota_or_state:"в архиве закончилось место",
+    rate_limited:"слишком много загрузок подряд — подождите минуту",
+    upstream_auth:"нужно обновить страницу и войти заново",
+    capability_disabled:"загрузка недоступна в этом окне",
+    not_granted:"нет прав на добавление",
+    store_unavailable:"хранилище временно недоступно",
+    quota_exceeded:"достигнут предел количества записей"
+  };
+  return m[code]||"не получилось сохранить";
+}
+
+/* ======== Обработка файлов ======== */
+function shrinkImage(file){
+  return new Promise(function(resolve){
+    if(!/^image\//.test(file.type) || file.type==="image/gif" || file.type==="image/svg+xml"){ resolve(file); return; }
+    if(!window.createImageBitmap){ resolve(file); return; }
+    createImageBitmap(file).then(function(bmp){
+      var MAX=1900;
+      var w=bmp.width, h=bmp.height;
+      var scale=Math.min(1, MAX/Math.max(w,h));
+      if(scale===1 && file.size<3.5*1048576){ if(bmp.close)bmp.close(); resolve(file); return; }
+      var nw=Math.round(w*scale), nh=Math.round(h*scale);
+      var c=document.createElement("canvas"); c.width=nw; c.height=nh;
+      c.getContext("2d").drawImage(bmp,0,0,nw,nh);
+      if(bmp.close)bmp.close();
+      c.toBlob(function(blob){
+        if(blob && blob.size<file.size){
+          var f=new File([blob], file.name.replace(/\.[^.]+$/,"")+".jpg", {type:"image/jpeg"});
+          f._w=nw; f._h=nh; resolve(f);
+        } else { resolve(file); }
+      }, "image/jpeg", 0.86);
+    }).catch(function(){ resolve(file); });
+  });
+}
+function mediaSize(file){
+  return new Promise(function(resolve){
+    if(file._w){ resolve({w:file._w,h:file._h}); return; }
+    var url=URL.createObjectURL(file);
+    if(/^image\//.test(file.type)){
+      var im=new Image();
+      im.onload=function(){ URL.revokeObjectURL(url); resolve({w:im.naturalWidth,h:im.naturalHeight}); };
+      im.onerror=function(){ URL.revokeObjectURL(url); resolve({w:0,h:0}); };
+      im.src=url;
+    } else {
+      var v=document.createElement("video");
+      v.preload="metadata";
+      v.onloadedmetadata=function(){ URL.revokeObjectURL(url); resolve({w:v.videoWidth,h:v.videoHeight}); };
+      v.onerror=function(){ URL.revokeObjectURL(url); resolve({w:0,h:0}); };
+      v.src=url;
+    }
+  });
+}
+function videoPoster(file){
+  return new Promise(function(resolve){
+    try{
+      var url=URL.createObjectURL(file);
+      var v=document.createElement("video");
+      v.muted=true; v.playsInline=true; v.preload="metadata"; v.src=url;
+      var done=false;
+      var finish=function(blob){ if(done)return; done=true; URL.revokeObjectURL(url); resolve(blob); };
+      var t=setTimeout(function(){finish(null);},7000);
+      v.onloadeddata=function(){
+        try{ v.currentTime=Math.min(0.6, (v.duration||1)/3); }catch(e){ }
+      };
+      v.onseeked=function(){
+        try{
+          var MAX=900, scale=Math.min(1, MAX/Math.max(v.videoWidth,v.videoHeight));
+          var c=document.createElement("canvas");
+          c.width=Math.round(v.videoWidth*scale); c.height=Math.round(v.videoHeight*scale);
+          c.getContext("2d").drawImage(v,0,0,c.width,c.height);
+          c.toBlob(function(b){ clearTimeout(t); finish(b); },"image/jpeg",0.8);
+        }catch(e){ clearTimeout(t); finish(null); }
+      };
+      v.onerror=function(){ clearTimeout(t); finish(null); };
+    }catch(e){ resolve(null); }
+  });
+}
+
+/* ======== Отрисовка фильтров ======== */
+function renderTabs(){
+  var el=$("sectionTabs"), html="";
+  var counts={all:items.length};
+  items.forEach(function(it){ counts[it.section]=(counts[it.section]||0)+1; });
+  html+='<button class="chip'+(fSection==="all"?" on":"")+'" data-s="all">🏡 Все <span class="cnt">'+items.length+'</span></button>';
+  SECTIONS.forEach(function(s){
+    html+='<button class="chip'+(fSection===s.id?" on":"")+'" data-s="'+s.id+'">'+s.emoji+" "+esc(s.name)+' <span class="cnt">'+(counts[s.id]||0)+'</span></button>';
+  });
+  el.innerHTML=html;
+}
+function visibleBySection(){
+  return items.filter(function(it){ return fSection==="all"||it.section===fSection; });
+}
+function renderYears(){
+  var el=$("yearsRow");
+  var ys={}; visibleBySection().forEach(function(it){ ys[it.year]=(ys[it.year]||0)+1; });
+  var list=Object.keys(ys).map(Number).sort(function(a,b){return b-a;});
+  if(!list.length){ el.innerHTML=""; return; }
+  if(fYear!=="all" && list.indexOf(Number(fYear))<0) fYear="all";
+  var html='<button class="chip year'+(fYear==="all"?" on":"")+'" data-y="all">все годы</button>';
+  list.forEach(function(y){
+    html+='<button class="chip year'+(String(fYear)===String(y)?" on":"")+'" data-y="'+y+'">'+y+'</button>';
+  });
+  el.innerHTML=html;
+}
+
+/* ======== Галерея ======== */
+function filtered(){
+  var q=fQuery.trim().toLowerCase();
+  var list=visibleBySection().filter(function(it){
+    if(fYear!=="all" && String(it.year)!==String(fYear)) return false;
+    if(q && String(it.caption||"").toLowerCase().indexOf(q)<0) return false;
+    return true;
+  });
+  list.sort(function(a,b){ return newestFirst ? (b.sort-a.sort) : (a.sort-b.sort); });
+  return list;
+}
+function cardHTML(it){
+  var ratio = (it.w&&it.h) ? (it.h/it.w*100) : 72;
+  var src = it.kind==="video" ? (it.posterId? "/_blob/"+it.posterId : null) : "/_blob/"+it.assetId;
+  var media;
+  if(src){
+    media='<img loading="lazy" src="'+src+'" alt="'+esc(it.caption||"фото")+'" style="aspect-ratio:'+(it.w&&it.h? it.w+"/"+it.h : "4/3")+'">';
+  } else {
+    media='<video preload="metadata" muted playsinline src="/_blob/'+it.assetId+'#t=0.5" style="aspect-ratio:'+(it.w&&it.h? it.w+"/"+it.h : "4/3")+'"></video>';
+  }
+  var play = it.kind==="video" ? '<span class="play"><i>▶</i></span>' : "";
+  var s=sectionById(it.section);
+  return '<article class="card" data-id="'+it.id+'">'+
+    '<div class="thumb">'+media+play+'</div>'+
+    '<div class="meta">'+
+      (it.caption? '<div class="cap">'+esc(it.caption)+'</div>':'')+
+      '<span class="tag">'+s.emoji+" "+esc(s.name)+" · "+it.year+'</span>'+
+    '</div></article>';
+}
+function renderGallery(){
+  var g=$("gallery");
+  if(!ready){ return; }
+  var list=filtered();
+  viewList=list;
+  if(!list.length){
+    g.innerHTML='<div class="empty">'+
+      '<svg width="70" height="70" viewBox="0 0 48 48" fill="none" stroke="var(--accent)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" style="opacity:.8"><rect x="6" y="12" width="36" height="26" rx="5"/><circle cx="24" cy="25" r="7"/><path d="M17 12l3-4h8l3 4"/></svg>'+
+      '<h3>'+(items.length? "Здесь пока пусто" : "Альбом только начинается")+'</h3>'+
+      '<p>'+(items.length? "Попробуйте выбрать другой раздел или год." : (canWrite===false? "Попросите того, кто создал альбом, добавить первые фотографии." : "Нажмите «Добавить» и загрузите первые фото и видео — они сохранятся здесь навсегда."))+'</p>'+
+      '</div>';
+    return;
+  }
+  var html="";
+  if(fYear==="all"){
+    var groups={}, order=[];
+    list.forEach(function(it){ if(!groups[it.year]){groups[it.year]=[];order.push(it.year);} groups[it.year].push(it); });
+    order.forEach(function(y){
+      html+='<section class="year-block"><div class="year-head"><h2>'+y+'</h2><span class="line"></span><span class="n">'+groups[y].length+'</span></div><div class="masonry">';
+      groups[y].forEach(function(it){ html+=cardHTML(it); });
+      html+='</div></section>';
+    });
+  } else {
+    html='<section class="year-block"><div class="masonry">';
+    list.forEach(function(it){ html+=cardHTML(it); });
+    html+='</div></section>';
+  }
+  g.innerHTML=html;
+}
+function renderAll(){ renderTabs(); renderYears(); renderGallery(); }
+
+/* ======== Просмотр ======== */
+function openViewer(id){
+  var idx=-1;
+  for(var i=0;i<viewList.length;i++) if(viewList[i].id===id) idx=i;
+  if(idx<0) return;
+  viewIdx=idx; $("viewer").hidden=false; document.body.style.overflow="hidden";
+  paintViewer();
+}
+function closeViewer(){
+  $("viewer").hidden=true; document.body.style.overflow="";
+  $("vMedia").innerHTML="";
+}
+function paintViewer(){
+  var it=viewList[viewIdx]; if(!it){ closeViewer(); return; }
+  var m=$("vMedia");
+  m.innerHTML = it.kind==="video"
+    ? '<video controls autoplay playsinline src="/_blob/'+it.assetId+'" style="max-height:78vh"></video>'
+    : '<img src="/_blob/'+it.assetId+'" alt="'+esc(it.caption||"")+'" style="max-height:78vh">';
+  $("vCap").textContent = it.caption || sectionById(it.section).name;
+  var who = it.addedBy && profiles[it.addedBy] ? " · добавил(а) "+profiles[it.addedBy] : "";
+  $("vMeta").textContent = sectionById(it.section).emoji+" "+sectionById(it.section).name+" · "+it.year+who;
+  var w = canWrite!==false;
+  $("vEdit").hidden=!w; $("vDel").hidden=!w;
+  $("vPrev").style.visibility = viewIdx>0 ? "visible":"hidden";
+  $("vNext").style.visibility = viewIdx<viewList.length-1 ? "visible":"hidden";
+  resolveNames();
+}
+function step(d){ var n=viewIdx+d; if(n<0||n>=viewList.length) return; viewIdx=n; paintViewer(); }
+
+/* ======== Имена ======== */
+function resolveNames(){
+  if(!USER) return;
+  var ids=[]; items.forEach(function(it){ if(it.addedBy && ids.indexOf(it.addedBy)<0) ids.push(it.addedBy); });
+  if(!ids.length) return;
+  try{
+    USER.profiles(ids).then(function(ps){
+      var changed=false;
+      ids.forEach(function(id){
+        var n=(ps&&ps[id]&&ps[id].name)||"";
+        if(n && profiles[id]!==n){ profiles[id]=n; changed=true; }
+      });
+      if(changed && !$("viewer").hidden) paintViewer();
+    }).catch(function(){});
+  }catch(e){}
+}
+
+/* ======== Модалка загрузки ======== */
+function pickerHTML(sel, attr){
+  return SECTIONS.map(function(s){
+    return '<button type="button" class="chip'+(sel===s.id?" on":"")+'" data-'+attr+'="'+s.id+'">'+s.emoji+" "+esc(s.name)+'</button>';
+  }).join("");
+}
+function paintUpSections(){ $("upSections").innerHTML=pickerHTML(upSection,"up"); }
+function paintEdSections(){ $("edSections").innerHTML=pickerHTML(edSection,"ed"); }
+function paintFileList(){
+  $("fileList").innerHTML = pending.map(function(p,i){
+    return '<div class="filerow '+(p.status||"")+'"><span class="nm">'+esc(p.file.name)+'</span><span class="st">'+(p.note|| mb(p.file.size))+'</span></div>';
+  }).join("");
+  $("dropTitle").textContent = pending.length ? ("Выбрано файлов: "+pending.length) : "Перетащите файлы сюда";
+}
+function addFiles(fileList){
+  var arr=Array.prototype.slice.call(fileList||[]);
+  arr.forEach(function(f){ pending.push({file:f}); });
+  paintFileList();
+}
+function openUpload(){
+  pending=[]; paintFileList();
+  upSection = (fSection!=="all")? fSection : SECTIONS[0].id; paintUpSections();
+  $("upYear").value = (fYear!=="all") ? fYear : new Date().getFullYear();
+  $("upCaption").value="";
+  $("uploadModal").hidden=false;
+}
+function closeUpload(){ $("uploadModal").hidden=true; pending=[]; }
+
+function doUpload(){
+  if(!pending.length){ toast("Сначала выберите файлы"); return; }
+  if(!ASSETS||!DB){ toast("Хранилище недоступно в этом окне"); return; }
+  var year=parseInt($("upYear").value,10);
+  if(!year||year<1900||year>2100){ toast("Укажите год"); return; }
+  var caption=$("upCaption").value.trim();
+  var btn=$("upSave"); btn.disabled=true; btn.innerHTML='<span class="spinner"></span> Загружаем…';
+
+  var i=0, okCount=0;
+  function next(){
+    if(i>=pending.length){
+      btn.disabled=false; btn.textContent="Сохранить";
+      refreshMeter();
+      if(okCount){ toast("Добавлено: "+okCount); closeUpload(); }
+      return;
+    }
+    var p=pending[i];
+    p.note="…"; p.status=""; paintFileList();
+    var isVideo=/^video\//.test(p.file.type);
+
+    shrinkImage(p.file).then(function(file){
+      return mediaSize(file).then(function(dim){
+        return (isVideo? videoPoster(p.file) : Promise.resolve(null)).then(function(poster){
+          return ASSETS.upload(file).then(function(res){
+            var doc={
+              assetId:res.id, kind:isVideo?"video":"image",
+              section:upSection, year:year, caption:caption,
+              w:dim.w||0, h:dim.h||0,
+              sort:year*10000 + (pending.length-i),
+              createdAt:new Date().toISOString(),
+              addedBy: MY_ID||""
+            };
+            if(poster){
+              return ASSETS.upload(poster,{type:"image/jpeg"}).then(function(pr){
+                doc.posterId=pr.id; return DB.collection("memories").add(doc);
+              }).catch(function(){ return DB.collection("memories").add(doc); });
+            }
+            return DB.collection("memories").add(doc);
+          });
+        });
+      });
+    }).then(function(){
+      p.status="ok"; p.note="готово"; okCount++;
+    }).catch(function(e){
+      p.status="err"; p.note=errText(e&&e.code);
+    }).then(function(){
+      paintFileList(); i++; next();
+    });
+  }
+  next();
+}
+
+/* ======== Редактирование / удаление ======== */
+function openEdit(it){
+  editingId=it.id; edSection=it.section; paintEdSections();
+  $("edYear").value=it.year; $("edCaption").value=it.caption||"";
+  $("editModal").hidden=false;
+}
+function saveEdit(){
+  var it=null; items.forEach(function(x){ if(x.id===editingId) it=x; });
+  if(!it||!DB) return;
+  var year=parseInt($("edYear").value,10);
+  if(!year){ toast("Укажите год"); return; }
+  DB.doc("memories/"+it.id).update({
+    section:edSection, year:year, caption:$("edCaption").value.trim(),
+    sort: year*10000 + (it.sort%10000)
+  }).then(function(){
+    $("editModal").hidden=true; toast("Сохранено");
+  }).catch(function(e){ toast("Не удалось сохранить: "+errText(e&&e.code)); });
+}
+function removeItem(it){
+  if(!DB) return;
+  if(!confirm("Удалить это воспоминание из альбома? Действие необратимо.")) return;
+  DB.doc("memories/"+it.id).delete().then(function(){
+    if(ASSETS){
+      ASSETS.delete(it.assetId).catch(function(){});
+      if(it.posterId) ASSETS.delete(it.posterId).catch(function(){});
+    }
+    closeViewer(); toast("Удалено"); refreshMeter();
+  }).catch(function(e){ toast("Не удалось удалить: "+errText(e&&e.code)); });
+}
+
+/* ======== Метр хранилища ======== */
+function refreshMeter(){
+  if(!ASSETS) return;
+  ASSETS.list().then(function(r){
+    var u=r.usage;
+    $("meter").textContent = "В альбоме "+items.length+" воспоминаний · занято "+mb(u.bytes)+" из "+mb(u.maxBytes);
+  }).catch(function(){});
+}
+
+/* ======== События ======== */
+$("sectionTabs").addEventListener("click", function(e){
+  var b=e.target.closest("[data-s]"); if(!b) return;
+  fSection=b.getAttribute("data-s"); renderAll();
+});
+$("yearsRow").addEventListener("click", function(e){
+  var b=e.target.closest("[data-y]"); if(!b) return;
+  fYear=b.getAttribute("data-y"); renderYears(); renderGallery();
+});
+$("gallery").addEventListener("click", function(e){
+  var c=e.target.closest(".card"); if(!c) return;
+  openViewer(c.getAttribute("data-id"));
+});
+$("search").addEventListener("input", function(e){ fQuery=e.target.value; renderGallery(); });
+$("orderBtn").addEventListener("click", function(){
+  newestFirst=!newestFirst;
+  this.textContent = newestFirst ? "↓ Сначала новые" : "↑ Сначала ранние";
+  renderGallery();
+});
+$("addBtn").addEventListener("click", openUpload);
+$("upCancel").addEventListener("click", closeUpload);
+$("upSave").addEventListener("click", doUpload);
+$("uploadModal").addEventListener("click", function(e){ if(e.target===this) closeUpload(); });
+$("upSections").addEventListener("click", function(e){
+  var b=e.target.closest("[data-up]"); if(!b) return;
+  upSection=b.getAttribute("data-up"); paintUpSections();
+});
+$("edSections").addEventListener("click", function(e){
+  var b=e.target.closest("[data-ed]"); if(!b) return;
+  edSection=b.getAttribute("data-ed"); paintEdSections();
+});
+$("edCancel").addEventListener("click", function(){ $("editModal").hidden=true; });
+$("edSave").addEventListener("click", saveEdit);
+$("editModal").addEventListener("click", function(e){ if(e.target===this) this.hidden=true; });
+
+$("drop").addEventListener("click", function(){ $("fileInput").click(); });
+$("fileInput").addEventListener("change", function(e){ addFiles(e.target.files); e.target.value=""; });
+["dragenter","dragover"].forEach(function(ev){
+  $("drop").addEventListener(ev, function(e){ e.preventDefault(); this.classList.add("over"); });
+});
+["dragleave","drop"].forEach(function(ev){
+  $("drop").addEventListener(ev, function(e){ e.preventDefault(); this.classList.remove("over"); });
+});
+$("drop").addEventListener("drop", function(e){ if(e.dataTransfer&&e.dataTransfer.files) addFiles(e.dataTransfer.files); });
+
+$("vClose").addEventListener("click", closeViewer);
+$("vPrev").addEventListener("click", function(){ step(-1); });
+$("vNext").addEventListener("click", function(){ step(1); });
+$("vEdit").addEventListener("click", function(){ var it=viewList[viewIdx]; if(it){ closeViewer(); openEdit(it); } });
+$("vDel").addEventListener("click", function(){ var it=viewList[viewIdx]; if(it) removeItem(it); });
+document.addEventListener("keydown", function(e){
+  if($("viewer").hidden) return;
+  if(e.key==="Escape") closeViewer();
+  if(e.key==="ArrowLeft") step(-1);
+  if(e.key==="ArrowRight") step(1);
+});
+
+$("titleBtn").addEventListener("click", function(){
+  if(canWrite===false){ return; }
+  $("tTitle").value=album.title; $("tSub").value=album.sub;
+  $("titleModal").hidden=false;
+});
+$("tCancel").addEventListener("click", function(){ $("titleModal").hidden=true; });
+$("titleModal").addEventListener("click", function(e){ if(e.target===this) this.hidden=true; });
+$("tSave").addEventListener("click", function(){
+  if(!DB) return;
+  var t=$("tTitle").value.trim()||"Наш семейный альбом";
+  var s=$("tSub").value.trim();
+  DB.doc("settings/album").set({title:t, sub:s}).then(function(){
+    $("titleModal").hidden=true; toast("Сохранено");
+  }).catch(function(e){ toast("Не удалось сохранить: "+errText(e&&e.code)); });
+});
+
+function paintAlbumMeta(){
+  $("albumTitle").innerHTML = esc(album.title)+(canWrite===false?"":'<span class="edit-hint">✎</span>');
+  $("albumSub").textContent = album.sub;
+  document.title = album.title;
+}
+
+/* ======== Запуск ======== */
+function noStore(){
+  ready=true;
+  $("gallery").innerHTML='<div class="empty"><h3>Альбом откроется в опубликованной версии</h3><p>Здесь фотографии и видео сохраняются в общем хранилище семьи. Откройте опубликованную ссылку, чтобы добавить первые воспоминания.</p></div>';
+}
+
+(function boot(){
+  if(!window.claude || !window.claude.use){ noStore(); return; }
+
+  Promise.resolve(window.claude.use("db")).then(function(db){
+    DB=db;
+    if(!DB){ noStore(); return; }
+
+    Promise.resolve(window.claude.use("assets")).then(function(a){
+      ASSETS=a;
+      if(ASSETS){ $("addBtn").hidden=false; refreshMeter(); }
+    }).catch(function(){});
+
+    Promise.resolve(window.claude.use("user")).then(function(u){
+      USER=u;
+      if(!USER) return;
+      try{
+        Promise.resolve(USER.can("data.write")).then(function(c){
+          canWrite = (c===false) ? false : true;
+          paintAlbumMeta();
+          if(c===false) $("addBtn").hidden=true;
+        }).catch(function(){});
+        Promise.resolve(USER.id()).then(function(id){ MY_ID=id||null; }).catch(function(){});
+      }catch(e){}
+    }).catch(function(){});
+
+    DB.doc("settings/album").onSnapshot(function(snap){
+      if(snap.exists){
+        var d=snap.data()||{};
+        album.title=d.title||album.title;
+        album.sub=(d.sub!=null?d.sub:album.sub);
+        paintAlbumMeta();
+      }
+    }, function(){});
+
+    DB.collection("memories").orderBy("sort","desc").limit(1000).onSnapshot(function(snap){
+      items = snap.docs.map(function(d){
+        var v=d.data()||{};
+        return {
+          id:d.id, assetId:v.assetId, posterId:v.posterId||null,
+          kind:v.kind==="video"?"video":"image",
+          section:v.section||"family",
+          year: parseInt(v.year,10)||new Date().getFullYear(),
+          caption:v.caption||"", w:v.w||0, h:v.h||0,
+          sort: typeof v.sort==="number"? v.sort : (parseInt(v.year,10)||0)*10000,
+          addedBy:v.addedBy||""
+        };
+      }).filter(function(x){ return !!x.assetId; });
+      ready=true;
+      renderAll(); resolveNames(); refreshMeter();
+    }, function(e){
+      ready=true;
+      $("gallery").innerHTML='<div class="empty"><h3>Не удалось загрузить альбом</h3><p>Попробуйте обновить страницу.</p></div>';
+    });
+
+  }).catch(function(){ noStore(); });
+
+  setTimeout(function(){ if(!ready) noStore(); }, 12000);
+})();
+
+})();
+</script>
+</body>
+</html>
